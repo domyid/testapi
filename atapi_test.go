@@ -20,6 +20,6 @@ func TestAtapi(t *testing.T) {
 		DeviceId:   "6580fb6e714844ca",
 	}
 	url := "https://apps.dev.rayain.net/api/gateway/auth/login"
-	res := PostStructtoAPI(dt, url)
+	res := PostStruct(dt, url)
 	fmt.Println("res : ", res)
 }

@@ -8,7 +8,7 @@ import (
 	"net/http"
 )
 
-func PostStructtoAPI(wamsg interface{}, url string) (result interface{}) {
+func PostStruct(wamsg interface{}, url string) (result interface{}) {
 	mJson, _ := json.Marshal(wamsg)
 	resp, err := http.Post(url, "application/json", bytes.NewBuffer(mJson))
 	if err != nil {
