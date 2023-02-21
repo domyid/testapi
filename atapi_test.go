@@ -12,7 +12,7 @@ type TestApi struct {
 	DeviceId   string `json:"deviceId"`
 }
 
-func TestAtapi(t *testing.T) {
+func TestPostStruct(t *testing.T) {
 	dt := TestApi{
 		Phone:      "+6285155476774",
 		Password:   "#P@ssw0rd",
