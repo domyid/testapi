@@ -23,7 +23,7 @@ func TestPostStruct(t *testing.T) {
 		FirebaseId: "123",
 		DeviceId:   "6580fb6e714844ca",
 	}
-	url := "https://apps.dev.rayain.net/api/gateway/auth/login"
+	url := "https://awangga.requestcatcher.com/"
 	res := PostStruct(dt, url)
 	fmt.Println("TestPostStruct : ", res)
 }
@@ -36,7 +36,7 @@ func TestRequestStructWithToken(t *testing.T) {
 	dt := Sister{
 		Id_sdm: "8fe6735c-6e28-43e7-9eb3-3ae092bbcd62",
 	}
-	url := "https://sister.ulbi.ac.id/ws.php/1.0/dokumen"
+	url := "https://awangga.requestcatcher.com/"
 	res := RequestStructWithToken("GET", token, dt, url) // POST DELETE PUT
 	fmt.Println("TestRequestStructWithToken : ", res)
 }
@@ -45,7 +45,7 @@ func TestRequestStruct(t *testing.T) {
 	dt := Sister{
 		Id_sdm: "8fe6735c-6e28-43e7-9eb3-3ae092bbcd62",
 	}
-	url := "https://sister.ulbi.ac.id/ws.php/1.0/dokumen"
+	url := "https://awangga.requestcatcher.com/"
 	res := RequestStruct("GET", dt, url) // POST DELETE PUT
 	fmt.Println("TestRequestStruct : ", res)
 }
@@ -54,7 +54,7 @@ func TestGetStruct(t *testing.T) {
 	dt := Sister{
 		Id_sdm: "8fe6735c-6e28-43e7-9eb3-3ae092bbcd62",
 	}
-	url := "https://sister.ulbi.ac.id/ws.php/1.0/dokumen"
+	url := "https://awangga.requestcatcher.com/"
 	res := GetStruct(dt, url) // POST DELETE PUT
 	fmt.Println("TestGetStruct : ", res)
 }
