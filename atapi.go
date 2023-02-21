@@ -7,6 +7,8 @@ import (
 	"io"
 	"log"
 	"net/http"
+
+	"github.com/google/go-querystring/query"
 )
 
 func PostStruct(structname interface{}, url string) (result interface{}) {
@@ -26,6 +28,21 @@ func PostStruct(structname interface{}, url string) (result interface{}) {
 
 func Get(url string) (result interface{}) {
 	resp, err := http.Get(url)
+	if err != nil {
+		log.Fatalln(err)
+	}
+	fmt.Println(resp)
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		fmt.Println("Error Read data from Response.")
+	}
+	json.Unmarshal([]byte(body), &result)
+	return result
+}
+
+func GetStruct(structname interface{}, url string) (result interface{}) {
+	v, _ := query.Values(structname)
+	resp, err := http.Get(url + "?" + v.Encode())
 	if err != nil {
 		log.Fatalln(err)
 	}
