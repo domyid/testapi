@@ -12,6 +12,10 @@ type TestApi struct {
 	DeviceId   string `json:"deviceId"`
 }
 
+type Sister struct {
+	Id_sdm string `url:"id_sdm"`
+}
+
 func TestPostStruct(t *testing.T) {
 	dt := TestApi{
 		Phone:      "+6285155476774",
@@ -21,19 +25,7 @@ func TestPostStruct(t *testing.T) {
 	}
 	url := "https://apps.dev.rayain.net/api/gateway/auth/login"
 	res := PostStruct(dt, url)
-	fmt.Println("res : ", res)
-}
-
-func TestRequestStruct(t *testing.T) {
-	dt := TestApi{
-		Phone:      "+6285155476774",
-		Password:   "#P@ssw0rd",
-		FirebaseId: "123",
-		DeviceId:   "6580fb6e714844ca",
-	}
-	url := "https://sister.ulbi.ac.id/ws.php/1.0/dokumen"
-	res := RequestStruct("GET", dt, url)
-	fmt.Println("res : ", res)
+	fmt.Println("TestPostStruct : ", res)
 }
 
 func TestRequestStructWithToken(t *testing.T) {
@@ -41,13 +33,28 @@ func TestRequestStructWithToken(t *testing.T) {
 		Key:    "token",
 		Values: "dsfdsfdsfdsfdsf",
 	}
-	dt := TestApi{
-		Phone:      "+6285155476774",
-		Password:   "#P@ssw0rd",
-		FirebaseId: "123",
-		DeviceId:   "6580fb6e714844ca",
+	dt := Sister{
+		Id_sdm: "8fe6735c-6e28-43e7-9eb3-3ae092bbcd62",
 	}
 	url := "https://sister.ulbi.ac.id/ws.php/1.0/dokumen"
 	res := RequestStructWithToken("GET", token, dt, url) // POST DELETE PUT
-	fmt.Println("res : ", res)
+	fmt.Println("TestRequestStructWithToken : ", res)
+}
+
+func TestRequestStruct(t *testing.T) {
+	dt := Sister{
+		Id_sdm: "8fe6735c-6e28-43e7-9eb3-3ae092bbcd62",
+	}
+	url := "https://sister.ulbi.ac.id/ws.php/1.0/dokumen"
+	res := RequestStruct("GET", dt, url) // POST DELETE PUT
+	fmt.Println("TestRequestStruct : ", res)
+}
+
+func TestGetStruct(t *testing.T) {
+	dt := Sister{
+		Id_sdm: "8fe6735c-6e28-43e7-9eb3-3ae092bbcd62",
+	}
+	url := "https://sister.ulbi.ac.id/ws.php/1.0/dokumen"
+	res := GetStruct(dt, url) // POST DELETE PUT
+	fmt.Println("TestGetStruct : ", res)
 }
