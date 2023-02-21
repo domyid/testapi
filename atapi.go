@@ -7,7 +7,6 @@ import (
 	"io"
 	"log"
 	"net/http"
-	"strings"
 
 	"github.com/google/go-querystring/query"
 )
@@ -17,10 +16,10 @@ type Token struct {
 	Values string
 }
 
-func RequestStructWithToken(method string, token Token, structname interface{}, urltarget string) (result interface{}) {
+func GetStructWithToken(token Token, structname interface{}, urltarget string) (result interface{}) {
 	client := http.Client{}
-	data, _ := query.Values(structname)
-	req, err := http.NewRequest(method, urltarget, strings.NewReader(data.Encode()))
+	v, _ := query.Values(structname)
+	req, err := http.NewRequest("GET", urltarget+"?"+v.Encode(), nil)
 	if err != nil {
 		log.Fatalf("http.NewRequest Got error %s", err.Error())
 	}
@@ -39,14 +38,15 @@ func RequestStructWithToken(method string, token Token, structname interface{}, 
 	return
 }
 
-func RequestStruct(method string, structname interface{}, urltarget string) (result interface{}) {
+func PostStructWithToken(token Token, structname interface{}, urltarget string) (result interface{}) {
 	client := http.Client{}
-	data, _ := query.Values(structname)
-	req, err := http.NewRequest(method, urltarget, strings.NewReader(data.Encode()))
+	mJson, _ := json.Marshal(structname)
+	req, err := http.NewRequest("POST", urltarget, bytes.NewBuffer(mJson))
 	if err != nil {
 		log.Fatalf("http.NewRequest Got error %s", err.Error())
 	}
 	req.Header.Add("Content-Type", "application/json")
+	req.Header.Add(token.Key, token.Values)
 	resp, err := client.Do(req)
 	if err != nil {
 		log.Fatalf("client.Do(req) Error occured. Error is: %s", err.Error())
