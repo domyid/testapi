@@ -64,7 +64,7 @@ func PostStruct(structname interface{}, urltarget string) (result interface{}) {
 	mJson, _ := json.Marshal(structname)
 	resp, err := http.Post(urltarget, "application/json", bytes.NewBuffer(mJson))
 	if err != nil {
-		fmt.Println("Could not make POST request to whatsauth")
+		fmt.Println("Could not make POST request to server")
 	}
 	fmt.Println(resp)
 	body, err := io.ReadAll(resp.Body)
