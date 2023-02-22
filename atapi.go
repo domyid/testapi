@@ -5,29 +5,23 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
-	"log"
 	"net/http"
 
 	"github.com/google/go-querystring/query"
 )
 
-type Token struct {
-	Key    string
-	Values string
-}
-
-func GetStructWithToken(token Token, structname interface{}, urltarget string) (result interface{}) {
+func GetStructWithBearer(tokenbearer string, structname interface{}, urltarget string) (result interface{}) {
 	client := http.Client{}
 	v, _ := query.Values(structname)
 	req, err := http.NewRequest("GET", urltarget+"?"+v.Encode(), nil)
 	if err != nil {
-		log.Fatalf("http.NewRequest Got error %s", err.Error())
+		fmt.Println("http.NewRequest Got error : ", err.Error())
 	}
 	req.Header.Add("Content-Type", "application/json")
-	req.Header.Add(token.Key, token.Values)
+	req.Header.Add("Authorization", "Bearer "+tokenbearer)
 	resp, err := client.Do(req)
 	if err != nil {
-		log.Fatalf("client.Do(req) Error occured. Error is: %s", err.Error())
+		fmt.Println("client.Do(req) Error occured. Error is :", err.Error())
 	}
 	defer resp.Body.Close()
 	respBody, err := io.ReadAll(resp.Body)
@@ -38,18 +32,62 @@ func GetStructWithToken(token Token, structname interface{}, urltarget string) (
 	return
 }
 
-func PostStructWithToken(token Token, structname interface{}, urltarget string) (result interface{}) {
+func GetStructWithToken(tokenkey string, tokenvalue string, structname interface{}, urltarget string) (result interface{}) {
+	client := http.Client{}
+	v, _ := query.Values(structname)
+	req, err := http.NewRequest("GET", urltarget+"?"+v.Encode(), nil)
+	if err != nil {
+		fmt.Println("http.NewRequest Got error : ", err.Error())
+	}
+	req.Header.Add("Content-Type", "application/json")
+	req.Header.Add(tokenkey, tokenvalue)
+	resp, err := client.Do(req)
+	if err != nil {
+		fmt.Println("client.Do(req) Error occured. Error is :", err.Error())
+	}
+	defer resp.Body.Close()
+	respBody, err := io.ReadAll(resp.Body)
+	if err != nil {
+		fmt.Println("Error Read Data data from request.")
+	}
+	json.Unmarshal([]byte(respBody), &result)
+	return
+}
+
+func PostStructWithBearer(tokenbearer string, structname interface{}, urltarget string) (result interface{}) {
 	client := http.Client{}
 	mJson, _ := json.Marshal(structname)
 	req, err := http.NewRequest("POST", urltarget, bytes.NewBuffer(mJson))
 	if err != nil {
-		log.Fatalf("http.NewRequest Got error %s", err.Error())
+		fmt.Println("http.NewRequest Got error :", err.Error())
 	}
 	req.Header.Add("Content-Type", "application/json")
-	req.Header.Add(token.Key, token.Values)
+	req.Header.Add("Authorization", "Bearer "+tokenbearer)
 	resp, err := client.Do(req)
 	if err != nil {
-		log.Fatalf("client.Do(req) Error occured. Error is: %s", err.Error())
+		fmt.Println("client.Do(req) Error occured. Error is :", err.Error())
+	}
+	defer resp.Body.Close()
+	respBody, err := io.ReadAll(resp.Body)
+	if err != nil {
+		fmt.Println("Error Read Data data from request.")
+	}
+	json.Unmarshal([]byte(respBody), &result)
+	return
+}
+
+func PostStructWithToken(tokenkey string, tokenvalue string, structname interface{}, urltarget string) (result interface{}) {
+	client := http.Client{}
+	mJson, _ := json.Marshal(structname)
+	req, err := http.NewRequest("POST", urltarget, bytes.NewBuffer(mJson))
+	if err != nil {
+		fmt.Println("http.NewRequest Got error :", err.Error())
+	}
+	req.Header.Add("Content-Type", "application/json")
+	req.Header.Add(tokenkey, tokenvalue)
+	resp, err := client.Do(req)
+	if err != nil {
+		fmt.Println("client.Do(req) Error occured. Error is :", err.Error())
 	}
 	defer resp.Body.Close()
 	respBody, err := io.ReadAll(resp.Body)
@@ -78,7 +116,7 @@ func PostStruct(structname interface{}, urltarget string) (result interface{}) {
 func Get(urltarget string) (result interface{}) {
 	resp, err := http.Get(urltarget)
 	if err != nil {
-		log.Fatalln(err)
+		fmt.Println(err)
 	}
 	fmt.Println(resp)
 	body, err := io.ReadAll(resp.Body)
@@ -93,7 +131,7 @@ func GetStruct(structname interface{}, urltarget string) (result interface{}) {
 	v, _ := query.Values(structname)
 	resp, err := http.Get(urltarget + "?" + v.Encode())
 	if err != nil {
-		log.Fatalln(err)
+		fmt.Println(err)
 	}
 	fmt.Println(resp)
 	body, err := io.ReadAll(resp.Body)

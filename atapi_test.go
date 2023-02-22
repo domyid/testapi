@@ -29,15 +29,11 @@ func TestPostStruct(t *testing.T) {
 }
 
 func TestRequestStructWithToken(t *testing.T) {
-	token := Token{
-		Key:    "token",
-		Values: "dsfdsfdsfdsfdsf",
-	}
 	dt := Sister{
 		Id_sdm: "8fe6735c-6e28-43e7-9eb3-3ae092bbcd62",
 	}
 	url := "https://awangga.requestcatcher.com/"
-	res := GetStructWithToken(token, dt, url)
+	res := GetStructWithToken("token", "dsfdsfdsfdsfdsf", dt, url)
 	fmt.Println("GetStructWithToken : ", res)
 	dta := TestApi{
 		Phone:      "+6285155476774",
@@ -45,7 +41,11 @@ func TestRequestStructWithToken(t *testing.T) {
 		FirebaseId: "123",
 		DeviceId:   "6580fb6e714844ca",
 	}
-	res = PostStructWithToken(token, dta, url)
+	res = PostStructWithToken("Login", "dsfdsfdsfdsfdsf", dta, url)
+	fmt.Println("PostStructWithToken : ", res)
+	res = PostStructWithBearer("dsfdsfdsfdsfdsf", dta, url)
+	fmt.Println("PostStructWithToken : ", res)
+	res = GetStructWithBearer("dsfdsfdsfdsfdsf", dta, url)
 	fmt.Println("PostStructWithToken : ", res)
 }
 
