@@ -35,19 +35,19 @@ func main(){
     DeviceId:   "6580fb6e714844ca",
  }
  url := "https://awangga.requestcatcher.com/"
- res = atapi.PostStruct(dt, url)
+ res = atapi.PostStruct[Response](dt, url)
  fmt.Println("TestPostStruct : ", res)
- res = atapi.Get(url)
+ res = atapi.Get[Response](url)
  fmt.Println("TestPostStruct : ", res)
- res = atapi.GetStructWithToken("token", "dsfdsfdsfdsfdsf", dt, url)
+ res = atapi.GetStructWithToken[Response]("token", "dsfdsfdsfdsfdsf", dt, url)
  fmt.Println("GetStructWithToken : ", res)
- res = PostStructWithToken("Login", "dsfdsfdsfdsfdsf", dt, url)
+ res = PostStructWithToken[Response]("Login", "dsfdsfdsfdsfdsf", dt, url)
  fmt.Println("PostStructWithToken : ", res)
- res = PostStructWithBearer("dsfdsfdsfdsfdsf", dt, url)
+ res = PostStructWithBearer[Response]("dsfdsfdsfdsfdsf", dt, url)
  fmt.Println("PostStructWithBearer : ", res)
- res = GetStructWithBearer("dsfdsfdsfdsfdsf", dt, url)
+ res = GetStructWithBearer[Response]("dsfdsfdsfdsfdsf", dt, url)
  fmt.Println("GetStructWithBeare : ", res)
- res = GetStruct(dt, url)
+ res = GetStruct[Response](dt, url)
  fmt.Println("GetStruct : ", res)
 
 }
