@@ -10,7 +10,7 @@ import (
 	"github.com/google/go-querystring/query"
 )
 
-func GetStructWithBearer(tokenbearer string, structname interface{}, urltarget string) (result interface{}) {
+func GetStructWithBearer[T any](tokenbearer string, structname interface{}, urltarget string) (result T) {
 	client := http.Client{}
 	v, _ := query.Values(structname)
 	req, err := http.NewRequest("GET", urltarget+"?"+v.Encode(), nil)
@@ -32,7 +32,7 @@ func GetStructWithBearer(tokenbearer string, structname interface{}, urltarget s
 	return
 }
 
-func GetStructWithToken(tokenkey string, tokenvalue string, structname interface{}, urltarget string) (result interface{}) {
+func GetStructWithToken[T any](tokenkey string, tokenvalue string, structname interface{}, urltarget string) (result T) {
 	client := http.Client{}
 	v, _ := query.Values(structname)
 	req, err := http.NewRequest("GET", urltarget+"?"+v.Encode(), nil)
@@ -54,7 +54,7 @@ func GetStructWithToken(tokenkey string, tokenvalue string, structname interface
 	return
 }
 
-func PostStructWithBearer(tokenbearer string, structname interface{}, urltarget string) (result interface{}) {
+func PostStructWithBearer[T any](tokenbearer string, structname interface{}, urltarget string) (result T) {
 	client := http.Client{}
 	mJson, _ := json.Marshal(structname)
 	req, err := http.NewRequest("POST", urltarget, bytes.NewBuffer(mJson))
@@ -76,7 +76,7 @@ func PostStructWithBearer(tokenbearer string, structname interface{}, urltarget 
 	return
 }
 
-func PostStructWithToken(tokenkey string, tokenvalue string, structname interface{}, urltarget string) (result interface{}) {
+func PostStructWithToken[T any](tokenkey string, tokenvalue string, structname interface{}, urltarget string) (result T) {
 	client := http.Client{}
 	mJson, _ := json.Marshal(structname)
 	req, err := http.NewRequest("POST", urltarget, bytes.NewBuffer(mJson))
@@ -98,13 +98,12 @@ func PostStructWithToken(tokenkey string, tokenvalue string, structname interfac
 	return
 }
 
-func PostStruct(structname interface{}, urltarget string) (result interface{}) {
+func PostStruct[T any](structname interface{}, urltarget string) (result T) {
 	mJson, _ := json.Marshal(structname)
 	resp, err := http.Post(urltarget, "application/json", bytes.NewBuffer(mJson))
 	if err != nil {
 		fmt.Println("Could not make POST request to server")
 	}
-	fmt.Println(resp)
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		fmt.Println("Error Read Data data from request.")
@@ -113,12 +112,11 @@ func PostStruct(structname interface{}, urltarget string) (result interface{}) {
 	return result
 }
 
-func Get(urltarget string) (result interface{}) {
+func Get[T any](urltarget string) (result T) {
 	resp, err := http.Get(urltarget)
 	if err != nil {
 		fmt.Println(err)
 	}
-	fmt.Println(resp)
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		fmt.Println("Error Read data from Response.")
@@ -127,13 +125,12 @@ func Get(urltarget string) (result interface{}) {
 	return result
 }
 
-func GetStruct(structname interface{}, urltarget string) (result interface{}) {
+func GetStruct[T any](structname interface{}, urltarget string) (result T) {
 	v, _ := query.Values(structname)
 	resp, err := http.Get(urltarget + "?" + v.Encode())
 	if err != nil {
 		fmt.Println(err)
 	}
-	fmt.Println(resp)
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		fmt.Println("Error Read data from Response.")
