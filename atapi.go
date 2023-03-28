@@ -31,6 +31,26 @@ func GetWithBearer[T any](tokenbearer string, urltarget string) (result T) {
 	return
 }
 
+func GetImageWithBearer(tokenbearer string, urltarget string) (respBody []byte) {
+	client := http.Client{}
+	req, err := http.NewRequest("GET", urltarget, nil)
+	if err != nil {
+		fmt.Println("http.NewRequest Got error : ", err.Error())
+	}
+	req.Header.Add("Content-Type", "image/jpeg")
+	req.Header.Add("Authorization", "Bearer "+tokenbearer)
+	resp, err := client.Do(req)
+	if err != nil {
+		fmt.Println("client.Do(req) Error occured. Error is :", err.Error())
+	}
+	defer resp.Body.Close()
+	respBody, err = io.ReadAll(resp.Body)
+	if err != nil {
+		fmt.Println("io.ReadAll(resp.Body) Error occured. Error is :", err.Error())
+	}
+	return
+}
+
 func GetStructWithBearer[T any](tokenbearer string, structname interface{}, urltarget string) (result T) {
 	client := http.Client{}
 	v, _ := query.Values(structname)
