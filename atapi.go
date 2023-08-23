@@ -165,11 +165,11 @@ func PostStruct[T any](structname interface{}, urltarget string) (result T) {
 	mJson, _ := json.Marshal(structname)
 	resp, err := http.Post(urltarget, "application/json", bytes.NewBuffer(mJson))
 	if err != nil {
-		fmt.Println("Could not make POST request to server")
+		fmt.Println("Could not make POST request to server : ", err.Error())
 	}
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
-		fmt.Println("Error Read Data data from request.")
+		fmt.Println("Error Read Data data from request : ", err.Error())
 	}
 	json.Unmarshal([]byte(body), &result)
 	return result
