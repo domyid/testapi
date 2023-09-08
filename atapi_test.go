@@ -55,9 +55,9 @@ type Data struct {
 }
 
 func TestGet(t *testing.T) {
-	myData := Get[Data]("https://dog.ceo/api/breeds/image/random")
+	myData, err := Get[Data]("https://dog.ceo/api/breeds/image/random")
 	// data = message.Data
-	fmt.Println(myData.Message)
+	fmt.Println(myData.Message, err)
 }
 
 //func TestGetStruct(t *testing.T) {
