@@ -1,4 +1,4 @@
-module github.com/aiteung/atapi
+module github.com/domyid/testapi
 
 go 1.21
 
